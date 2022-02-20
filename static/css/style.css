@@ -68,6 +68,20 @@ Navigation
   -moz-transition: background-color 0.2s, color 0.2s;
   transition: background-color 0.2s, color 0.2s;
 }
+
+.cd-side-navigation a img {
+  /* this is the icon */
+  position: absolute;
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  top: 1.3em;
+}
+
 .cd-side-navigation a svg {
   /* this is the icon */
   position: absolute;
@@ -430,7 +444,7 @@ Navigation
   }
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
  Loading Bar
 
@@ -469,4 +483,24 @@ Navigation
   #cd-loading-bar {
     left: 90px;
   }
+}
+
+/* --------------------------------
+
+ 图标
+
+-------------------------------- */
+.nav_logos {
+    width: 40%;
+    position: absolute;
+    left: 50%;
+    right: auto;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: 1.3em;
+    overflow: hidden;
+    display: block;
 }

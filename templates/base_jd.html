@@ -71,28 +71,28 @@
 {% endblock %}
 
 {% block script %}
-<script>
-function login(){
-    var datas = {
-        jdcookie: $("#jdcookie").val(),
-        remark: $("#remark").val(),
-    };
-	$.ajax({
-			type: "POST",
-			dataType: "json",
-			url:"/api/login",
-			data:datas,
-			success: function (data) {
-			if (data.status == "0") {
-				$("#errorTips").text(data.errMsg).show();
-				$("#loginBtn").text("提交托管");
-			}else{
-				window.location.href="/home";
-			}
-			}
-	 });
-}
-</script>
+<!--<script>-->
+<!--function login(){-->
+<!--    var datas = {-->
+<!--        jdcookie: $("#jdcookie").val(),-->
+<!--        remark: $("#remark").val(),-->
+<!--    };-->
+<!--	$.ajax({-->
+<!--			type: "POST",-->
+<!--			dataType: "json",-->
+<!--			url:"/api/jdApp/setck",-->
+<!--			data:datas,-->
+<!--			success: function (data) {-->
+<!--			if (data.status == "0") {-->
+<!--				$("#errorTips").text(data.errMsg).show();-->
+<!--				$("#loginBtn").text("提交托管");-->
+<!--			}else{-->
+<!--				window.location.href="/user";-->
+<!--			}-->
+<!--			}-->
+<!--	 });-->
+<!--}-->
+<!--</script>-->
 
 <!--<script>-->
 <!--	var app = Vue.createApp({-->
