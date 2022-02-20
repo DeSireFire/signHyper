@@ -1,0 +1,105 @@
+{% extends 'base_nav.html' %}
+{% block main %}
+<main class="cd-main">
+	<section class="cd-section index visible">
+		<header>
+			<div class="cd-title">
+				<h2>Web--JD自助托管!</h2>
+			</div>
+			<div class="container-fluid cd-components">
+				<div class="row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">
+						<div class="card text-white bg-secondary rounded">
+						  <div class="card-header">温馨提示丨风险告知</div>
+						  	<div class="card-body">
+								<h5 class="card-title">《安全相关》</h5>
+							  	<p class="card-text">为了您的财产安全请关闭免密支付以及打开支付验密（京东-设置-支付设置-支付验密设置）。</p>
+							  	<p class="card-text">建议京东账户绑定微信以保证提现能到账。</p>
+								<h5 class="card-title">《项目声明》</h5>
+								<p class="card-text">
+									signHyper 是一个
+									<b>以自用为初衷，练习fastapi静态渲染示例而开发的开源项目</b>，
+									它是免费的且没有”售后“。
+								</p>
+								<p class="card-text">
+									<b>任何人都可以搭建它提供服务，但是本项目不会为使用者的损失负责。</b>
+								</p>
+							  	<p class="card-text">
+									目前仅在
+									<a href="https://github.com/DeSireFire/signHyper" target="_blank">Github</a>
+									分发和更新。如果喜欢可以去点个 Star。
+								</p>
+						  	</div>
+							<div class="card-footer text-muted ">
+								<div class="card-body text-white">
+									<p class="card-text">请耐心阅读，获取方法--></p>
+									<p class="card-text">
+										手机用户可以使用Alook浏览器登录
+										<a style="" href="https://m.jd.com/" target="_blank" id="jd">JD官网</a>
+										，并在菜单-工具箱-开发者工具-Cookies中获取（Android和iPhone通用）。
+									</p>
+									<div class="form-group">
+										<label for="remark">备注信息:</label>
+										<input type="text" class="form-control" id="remark"
+											   placeholder="任意字符串，方便标识cookie的归属">
+									</div>
+									<div class="form-group">
+										<label for="jdcookie">JDcookies:</label>
+										<input type="text" class="form-control" id="jdcookie"
+											   placeholder="cookie直接填入输入框即可，Ninja会自动正则提取pt_key和pt_pin。">
+									</div>
+									<button id="loginBtn" type="button" class="btn btn-primary btn-lg" onclick="login()">提交托管</button>
+							</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+<!--			<a href="#index-content" class="cd-scroll">Scroll Down</a>-->
+		</header>
+
+<!--		<div class="cd-content" id="index-content">-->
+<!--			<p><input type="text" placeholder="请输入想说的话..." id="myInput"></p>-->
+<!--			<p id="result"></p>-->
+<!--		</div> &lt;!&ndash; .cd-content &ndash;&gt;-->
+	</section> <!-- .cd-section -->
+</main> <!-- .cd-main -->
+
+<div id="cd-loading-bar" data-scale="1" class="index"></div> <!-- lateral loading bar -->
+{% endblock %}
+
+{% block script %}
+<script>
+function login(){
+    var datas = {
+        jdcookie: $("#jdcookie").val(),
+        remark: $("#remark").val(),
+    };
+	$.ajax({
+			type: "POST",
+			dataType: "json",
+			url:"/api/login",
+			data:datas,
+			success: function (data) {
+			if (data.status == "0") {
+				$("#errorTips").text(data.errMsg).show();
+				$("#loginBtn").text("提交托管");
+			}else{
+				window.location.href="/home";
+			}
+			}
+	 });
+}
+</script>
+
+<!--<script>-->
+<!--	var app = Vue.createApp({-->
+<!--	  data() {return {message: 'Ciao'}},-->
+<!--	  compilerOptions: {-->
+<!--		delimiters: ["${", "}$"]-->
+<!--	  }-->
+<!--	}).mount('#app');-->
+<!--</script>-->
+{% endblock %}

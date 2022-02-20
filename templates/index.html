@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link href="{{ url_for('static', path='css/index.css') }}" rel="stylesheet">
+</head>
+<body>
+<canvas class="cavs" width="1575" height="1337"></canvas>
+
+<div class="loginmain">
+    <div class="login-title">
+        <span>管理员登录</span>
+    </div>
+
+    <div class="login-con">
+        <div class="login-user">
+            <div class="icon">
+                <img src="{{ url_for('static', path='img/cd-icon-username.png') }}" alt="">
+            </div>
+            <input id="jdcookie" type="text" name="pwd" placeholder="京东cookies" autocomplete="off" value="">
+        </div>
+        <div class="login-pwd">
+            <div class="icon">
+                <img src="{{ url_for('static', path='img/yan.png') }}" alt="">
+            </div>
+            <input id="remark" type="text" name="remark" placeholder="备注" autocomplete="off" value="">
+        </div>
+        <div class="login-btn">
+            <input type="button" value="登录" onclick="login()">
+        </div>
+    </div>
+</div>
+<script>
+function login(){
+    var datas = {
+        jdcookie: $("#jdcookie").val(),
+        remark: $("#remark").val(),
+    };
+	$.ajax({
+			type: "POST",
+			dataType: "json",
+			url:"/login",
+			data:datas,
+			success: function (data) {
+			if (data.status == "0") {
+				$("#errorTips").text(data.errMsg).show();
+				$("#loginBtn").text("登 录");
+			}else{
+				window.location.href="/home";
+			}
+			}
+	 });
+}
+</script>
+</body>
+</html>
+
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="{{ url_for('static', path='js/ban.js') }}"></script>
