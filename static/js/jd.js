@@ -1,4 +1,4 @@
-function login() {
+function jd_setck() {
     var datas = {
         jdCookies: $("#jdcookie").val(),
         remark: $("#remark").val(),
