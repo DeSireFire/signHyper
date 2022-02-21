@@ -1,10 +1,10 @@
-from typing import Optional
+import os
+import platform
 
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from starlette.responses import RedirectResponse
 from apps.jd import jdApp
 
 app = FastAPI()
@@ -14,7 +14,10 @@ templates = Jinja2Templates(directory="./templates")
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 # 读取子模块
 app.mount(f"/api/jdApp", jdApp)
+# 读取
+auth_json = {}
 
+app = FastAPI()
 
 # Request在路径操作中声明一个参数，该参数将返回模板。
 # 使用templates您创建的渲染并返回TemplateResponse，并request在Jinja2“上下文” 中将用作键值对之一。
@@ -37,6 +40,7 @@ async def read_root(request: Request):
 @app.get("/{path}")
 async def fe_path(request: Request, path: str):
     return templates.TemplateResponse(f"base_{path}.html", {"request": request})
+
 
 # @app.get("/items/{item_id}")
 # def read_item(item_id: int, q: Optional[str] = None):

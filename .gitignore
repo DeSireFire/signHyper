@@ -128,3 +128,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/ql/config/auth.json
