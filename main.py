@@ -17,8 +17,6 @@ app.mount(f"/api/jdApp", jdApp)
 # 读取
 auth_json = {}
 
-app = FastAPI()
-
 # Request在路径操作中声明一个参数，该参数将返回模板。
 # 使用templates您创建的渲染并返回TemplateResponse，并request在Jinja2“上下文” 中将用作键值对之一。
 @app.get("/items/{id}")
