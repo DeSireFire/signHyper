@@ -91,7 +91,7 @@ class qinglong(object):
         # 样例 data = {"name":"test888","value":"ohohoh","remarks":"test","id":35}
         data = json.dumps({"name": f"{name}", "value": f"{value}", "remarks": f"{remarks}", "id": int(id_str)})
         response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
-        print(response.text)
+        print(f"envs_update-->{response.text}")
         if '"code":200' in response.text:
             datas = json.loads(response.text).get("data")
             return datas
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     cls = qinglong()
     # print(cls.get_ql_auth())
     # 增删改查
-    # c = cls.envs_create("demo", "demo", "demo")
+    c = cls.envs_create("demo", "demo", "demo")
     # d = cls.envs_del("36")
     # u = cls.envs_update("demo", "demo", "demo", "35")
     # r = cls.envs_read("DeSireFire")
