@@ -7,7 +7,8 @@ from typing import Optional, Set
 from fastapi import FastAPI, Request, Body
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from components.auth import get_ql_auth
+
+from components.ql import *
 jdApp = FastAPI()
 
 

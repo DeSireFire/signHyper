@@ -37,7 +37,10 @@ async def read_root(request: Request):
 
 @app.get("/{path}")
 async def fe_path(request: Request, path: str):
-    return templates.TemplateResponse(f"base_{path}.html", {"request": request})
+    filePath = 'templates'
+    templates_files = os.listdir(filePath)
+    TR_html = f"base_{path}.html" if f"base_{path}.html" in templates_files else f"base_user.html"
+    return templates.TemplateResponse(TR_html, {"request": request})
 
 
 # @app.get("/items/{item_id}")

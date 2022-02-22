@@ -205,13 +205,13 @@ Navigation
   position: relative;
   height: 100vh;
   width: 100%;
-  /*background: #83b0b9;*/
-  background-image:url('/static/img/bg_jd.jpg');
+  background: #83b0b9;
+  /*background-image:url('/static/img/bg_jd.jpg');*/
   overflow: hidden;
 }
 .cd-section.services header {
-  /*background-color: #d35657;*/
-  background-image:url('/static/img/bg_1.jpg');
+  background-color: #d35657;
+  /*background-image:url('/static/img/bg_1.jpg');*/
 }
 .cd-section.projects header {
   background-color: #343943;

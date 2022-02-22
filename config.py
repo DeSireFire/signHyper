@@ -6,4 +6,6 @@
 # Blog      : https://blog.raxianch.moe/
 # Github    : https://github.com/DeSireFire
 __author__ = 'RaXianch'
+import os
 
+base_file_path = os.path.dirname(__file__)
