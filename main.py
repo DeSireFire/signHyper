@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from apps.jd import jdApp
+from config import host,port
 
 app = FastAPI()
 # 创建一个templates（模板）对象，以后可以重用。
@@ -31,10 +32,6 @@ async def read_root(request: Request):
 async def read_root(request: Request):
     return templates.TemplateResponse(f"base_user.html", {"request": request})
 
-# @app.get("/favicon.ico")
-# async def favicon(request: Request):
-#     return templates.TemplateResponse(f"base_index.html", {"request": request})
-
 @app.get("/{path}")
 async def fe_path(request: Request, path: str):
     filePath = 'templates'
@@ -47,10 +44,10 @@ async def fe_path(request: Request, path: str):
 # def read_item(item_id: int, q: Optional[str] = None):
 #     return {"item_id": item_id, "q": q}
 
-def run_uvicorn(host="127.0.0.1", port=int(5360)):
+def run_uvicorn(HOST=host, PORT=int(port)):
     uvicorn.run(
         app="main:app",
-        host=host, port=port,
+        host=HOST, port=PORT,
         reload=True)
 
 if __name__ == '__main__':
