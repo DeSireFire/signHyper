@@ -49,3 +49,7 @@ async def set_jd_cookies(item: post_data_item):
             print(f"JD_COOKIE3--->{res}")
         return {"status": 1}
     return {"status": 0}
+
+# if __name__ == '__main__':
+#     a = input()
+#     print("".join([i for i in a if i.isdigit()]))
