@@ -14,7 +14,7 @@ jdApp = FastAPI()
 ql = qinglong()
 
 class post_data_item(BaseModel):
-    remark: Optional[str] = "备注"
+    remark: Optional[str] = ""
     jdCookies: Optional[str] = ""
 
 

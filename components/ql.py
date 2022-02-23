@@ -11,11 +11,11 @@ import os
 import platform
 import time
 import requests
-from config import base_file_path
+from config import base_file_path, ql_url
 class qinglong(object):
     def __init__(self):
         self.auth = None
-        self.url = "https://ql.raxianch.moe"
+        self.url = ql_url
         self.get_ql_auth()
 
     def get_ql_auth(self):
