@@ -5,8 +5,9 @@ def convert_cookies_to_dict(cookies):
     :param cookies: str
     :return:
     """
-    ck = {}
-    for k_v in cookies.split(':'):
-        k, v = k_v.split('=', 1)
-        ck[k.strip()] = v.replace('"', '')
+    try:
+        ck = dict([l.strip().split("=", 1) for l in list(filter(None,cookies.split("; ")))])
+    except Exception as E:
+        ck = {}
+        print(f'cookie解析错误:{E}！ cookies明细:{cookies}')
     return ck

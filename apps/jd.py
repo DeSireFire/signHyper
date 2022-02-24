@@ -34,18 +34,20 @@ async def set_jd_cookies(item: post_data_item):
     pt_key = temp_cookies.get("pt_key")
     pt_pin = temp_cookies.get("pt_pin")
     datas = []
-    print(temp_cookies)
+    print(f'temp_cookies--->{temp_cookies}')
+    print(f'pt_key,pt_pin--->{pt_key},{pt_pin}')
     res = None
     if pt_key and pt_pin:
         # 搜索变量
         datas = ql.envs_read(pt_pin) or []
+        print(datas)
         # 有结果只取第一个
         if datas:
             d_id = datas[0].get("id")
-            res = await ql.envs_update("JD_COOKIE", f"pt_key={pt_key};pt_pin={pt_pin};", f"{remark}", id_str=d_id)
+            res = ql.envs_update("JD_COOKIE", f"pt_key={pt_key};pt_pin={pt_pin};", f"{remark}", id_str=d_id)
             print(f"JD_COOKIE--->{res}")
         else:   # 没到说明是新变量
-            res = await ql.envs_create("JD_COOKIE", f"pt_key={pt_key};pt_pin={pt_pin};", f"{remark}")
+            res = ql.envs_create("JD_COOKIE", f"pt_key={pt_key};pt_pin={pt_pin};", f"{remark}")
             print(f"JD_COOKIE3--->{res}")
         return {"status": 1}
     return {"status": 0}
