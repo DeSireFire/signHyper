@@ -1,12 +1,13 @@
 import os
 import platform
-
+from typing import Optional, Set
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from apps.jd import jdApp
-from config import host,port
+from config import host, port
+from urllib.parse import quote
 
 app = FastAPI()
 # 创建一个templates（模板）对象，以后可以重用。
@@ -29,20 +30,22 @@ async def read_root(request: Request):
     return templates.TemplateResponse(f"index.html", {"request": request})
 
 @app.get("/")
-async def read_root(request: Request):
+async def read_root(request: Request, response: Response):
     return templates.TemplateResponse(f"base_user.html", {"request": request})
 
 @app.get("/{path}")
-async def fe_path(request: Request, path: str):
+async def fe_path(request: Request, response: Response, path: str):
     filePath = 'templates'
     templates_files = os.listdir(filePath)
+
     TR_html = f"base_{path}.html" if f"base_{path}.html" in templates_files else f"base_user.html"
     return templates.TemplateResponse(TR_html, {"request": request})
 
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#     return {"item_id": item_id, "q": q}
+@app.get("/cookies/{ck}")
+async def cookie_test(response: Response, ck: Optional[str] = None):
+    text = quote(f'{ck}', 'utf-8')
+    response.set_cookie(key="jd-user", value=text)
+    return {"ck": ck}
 
 def run_uvicorn(HOST=host, PORT=int(port)):
     uvicorn.run(

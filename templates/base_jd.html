@@ -4,7 +4,7 @@
 	<section class="cd-section index visible">
 		<header>
 			<div class="cd-title">
-{#				<h2>Web--JD自助托管!</h2>#}
+				<h2>Web--JD自助托管!</h2>
 			</div>
 			<div class="container-fluid cd-components">
 				<div class="row">
@@ -47,7 +47,8 @@
 									<div class="form-group">
 										<label for="jdcookie">JDcookies:</label>
 										<input type="text" class="form-control" id="jdcookie"
-											   placeholder="cookie直接填入输入框即可，Ninja会自动正则提取pt_key和pt_pin。">
+											   placeholder="cookie直接填入输入框即可，会自动正则提取pt_key和pt_pin。">
+										<b style="display: none;color: #FFFF66" id="errorTips"></b>
 									</div>
 									<button id="loginBtn" type="button" class="btn btn-primary btn-lg" onclick="jd_setck()">提交托管</button>
 							</div>
@@ -57,12 +58,11 @@
 					<div class="col-sm-3"></div>
 				</div>
 			</div>
-<!--			<a href="#index-content" class="cd-scroll">Scroll Down</a>-->
+<!--			<a href="#index-content" class="cd-scroll"></a>-->
 		</header>
 
 <!--		<div class="cd-content" id="index-content">-->
-<!--			<p><input type="text" placeholder="请输入想说的话..." id="myInput"></p>-->
-<!--			<p id="result"></p>-->
+<!--			<p>预留</p>-->
 <!--		</div> &lt;!&ndash; .cd-content &ndash;&gt;-->
 	</section> <!-- .cd-section -->
 </main> <!-- .cd-main -->
@@ -71,35 +71,4 @@
 {% endblock %}
 
 {% block script %}
-<!--<script>-->
-<!--function login(){-->
-<!--    var datas = {-->
-<!--        jdcookie: $("#jdcookie").val(),-->
-<!--        remark: $("#remark").val(),-->
-<!--    };-->
-<!--	$.ajax({-->
-<!--			type: "POST",-->
-<!--			dataType: "json",-->
-<!--			url:"/api/jdApp/setck",-->
-<!--			data:datas,-->
-<!--			success: function (data) {-->
-<!--			if (data.status == "0") {-->
-<!--				$("#errorTips").text(data.errMsg).show();-->
-<!--				$("#loginBtn").text("提交托管");-->
-<!--			}else{-->
-<!--				window.location.href="/user";-->
-<!--			}-->
-<!--			}-->
-<!--	 });-->
-<!--}-->
-<!--</script>-->
-
-<!--<script>-->
-<!--	var app = Vue.createApp({-->
-<!--	  data() {return {message: 'Ciao'}},-->
-<!--	  compilerOptions: {-->
-<!--		delimiters: ["${", "}$"]-->
-<!--	  }-->
-<!--	}).mount('#app');-->
-<!--</script>-->
 {% endblock %}

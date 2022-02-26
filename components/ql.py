@@ -14,18 +14,17 @@ import requests
 from config import base_file_path, ql_url
 class qinglong(object):
     def __init__(self):
-        self.auth = None
         self.url = ql_url
-        self.get_ql_auth()
 
-    def get_ql_auth(self):
+    @property
+    def auth(self):
         """
         获取和刷新青龙面板的登录信息
         :return:
         """
         # 获取auth信息
         # /ql/config/auth.json
-        ql_auth_path = os.path.join(base_file_path, "ql","config","auth.json")\
+        ql_auth_path = os.path.join(base_file_path, "ql", "config", "auth.json")\
             if platform.system() == 'Windows' else '/ql/config/auth.json'
         auth_json = {}
         if os.path.exists(ql_auth_path):
@@ -36,7 +35,6 @@ class qinglong(object):
                     print(auth_json)
                 except Exception as e:
                     print(f"{[auth_json]} --> 错误:{e}")
-        self.auth = auth_json
         return auth_json
 
     @property
@@ -45,8 +43,7 @@ class qinglong(object):
         # todo 获取不到tokens会报错！
         token = ""
         if self.auth and isinstance(self.auth.get("tokens"), dict):
-            token = self.auth.get("tokens").get("desktop") \
-            if not None else self.get_ql_auth().get("tokens").get("desktop")
+            token = self.auth.get("tokens").get("desktop")
         else:
             # todo 日志->为获取到密钥
             pass

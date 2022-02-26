@@ -1,17 +1,19 @@
 {% extends 'base_nav.html' %}
 {% block main %}
-<main class="cd-main">
+<main class="cd-main" id="app">
 	<section class="cd-section index visible">
 		<header>
 			<div class="cd-title">
-				<h2>user info!</h2>
+				<h2>用户中心</h2>
 			</div>
 			<div class="container-fluid cd-components">
 				<div class="row">
 					<div class="col-sm-3"></div>
 					<div class="col-sm-6">
 						<div class="card text-white bg-secondary rounded">
-						  <div class="card-header">待开发ing</div>
+						  <div class="card-header" onload="getCookie('jd-user')">
+							  <p id="jd-user"></p>
+						  </div>
 						  	<div class="card-body">
 								<h5 class="card-title">待开发ing</h5>
 							  	<p class="card-text">待开发ing</p>
@@ -39,20 +41,13 @@
 
 {% block script %}
 <script>
+
+
  $(function () {
- $("#myInput").on("input", function () {
- //在输入框中打印输入的值
- $("#result").text($(this).val());
- });
+	 $("#myInput").on("input", function () {
+	 //在输入框中打印输入的值
+	 $("#result").text($(this).val());
+	 });
  });
 </script>
-
-<!--<script>-->
-<!--	var app = Vue.createApp({-->
-<!--	  data() {return {message: 'Ciao'}},-->
-<!--	  compilerOptions: {-->
-<!--		delimiters: ["${", "}$"]-->
-<!--	  }-->
-<!--	}).mount('#app');-->
-<!--</script>-->
 {% endblock %}
