@@ -86,8 +86,10 @@ class qinglong(object):
             't': str(int(round(time.time() * 1000))),
         }
         # 样例 data = {"name":"test888","value":"ohohoh","remarks":"test","id":35}
-        data = json.dumps({"name": f"{name}", "value": f"{value}", "remarks": f"{remarks}", "id": int(id_str)})
-        response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
+        data = {"name": f"{name}", "value": f"{value}", "id": int(id_str)}
+        if remarks:
+            data["remarks"] = f"{remarks}"
+        response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=json.dumps(data))
         print(f"envs_update-->{response.text}")
         if '"code":200' in response.text:
             datas = json.loads(response.text).get("data")
@@ -107,11 +109,14 @@ class qinglong(object):
         params = {
             't': str(int(round(time.time() * 1000))),
         }
+        datas = []
         # data = '[{"name":"test777","value":"test888","remarks":"90909"}]'
         # data = json.dumps([{"name":f"{name}","value":"test888","remarks":"90909"}])
-        data = json.dumps([{"name": f"{name}", "value": f"{value}", "remarks": f"{remarks}"}])
-
-        response = requests.post(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
+        data = {"name": f"{name}", "value": f"{value}"}
+        if remarks:
+            data["remarks"] = f"{remarks}"
+        datas.append(data)
+        response = requests.post(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=json.dumps(datas))
         print(response.text)
         if '"code":200' in response.text:
             datas = json.loads(response.text).get("data")
