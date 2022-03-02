@@ -1,0 +1,53 @@
+{% extends 'base_nav.html' %}
+{% block main %}
+<main class="cd-main" id="app">
+	<section class="cd-section index visible">
+		<header>
+			<div class="cd-title">
+				<h2>用户中心</h2>
+			</div>
+			<div class="container-fluid cd-components">
+				<div class="row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6">
+						<div class="card text-white bg-secondary rounded">
+						  <div class="card-header" onload="getCookie('jd-user')">
+							  <p id="jd-user"></p>
+						  </div>
+						  	<div class="card-body">
+								<h5 class="card-title">待开发ing</h5>
+							  	<p class="card-text">待开发ing</p>
+						  	</div>
+							<div class="card-footer text-muted ">
+								敬请期待！
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3"></div>
+				</div>
+			</div>
+<!--			<a href="#index-content" class="cd-scroll">Scroll Down</a>-->
+		</header>
+
+		<div class="cd-content" id="index-content">
+			<p><input type="text" placeholder="请输入想说的话..." id="myInput"></p>
+			<p id="result"></p>
+		</div> <!-- .cd-content -->
+	</section> <!-- .cd-section -->
+</main> <!-- .cd-main -->
+
+<div id="cd-loading-bar" data-scale="1" class="index"></div> <!-- lateral loading bar -->
+{% endblock %}
+
+{% block script %}
+<script>
+
+
+ $(function () {
+	 $("#myInput").on("input", function () {
+	 //在输入框中打印输入的值
+	 $("#result").text($(this).val());
+	 });
+ });
+</script>
+{% endblock %}
