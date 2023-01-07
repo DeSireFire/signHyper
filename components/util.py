@@ -5,7 +5,10 @@ def convert_cookies_to_dict(cookies):
     :param cookies: str
     :return:
     """
-    cookies = cookies.strip()
+    if isinstance(cookies, str):
+        cookies = cookies.strip()
+        return cookies
+
     try:
         ck = dict([l.strip().split("=", 1) for l in list(filter(None, cookies.split(";")))])
     except Exception as E:
