@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!-- 头部模块 -->
+    <header>
+        <h1><span>攒劲挂机</span></h1>
+        <p><span>JD&Meituan HolyShit Script GetHigh</span></p>
+    </header>
+
+    <div class="main">
+        <!-- top5 -->
+        <div class="top5">
+            <div class="top5-title">
+                <span>品牌销售TOP5</span>
+            </div>
+            <div class="top5-content">
+                <ul>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>××品牌</span>
+                            <span>15862</span>
+                            <span>82%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="cicle"></div>
+                        <div class="li-content">
+                            <span>××品牌</span>
+                            <span>15862</span>
+                            <span>82%</span>
+                            <span><img src="./images/up.png" alt=""></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="top5-title">
+                <span>大类销售分析</span>
+            </div>
+        </div>
+        <!-- 总脚本数 -->
+        <div class="total">
+            <div class="data1">
+                <span>京东</span>
+                <p>233</p>
+            </div>
+            <div class="data2">
+                <span>美团</span>
+                <p>66</p>
+            </div>
+            <div class="data3">
+                <span>饿了么</span>
+                <p>88</p>
+            </div>
+            <div class="data4">
+                <span>其它</span>
+                <p>11</p>
+            </div>
+            <canvas class="rain"></canvas>
+            <canvas class="dashed"></canvas>
+            <div class="sphere">
+                <div class="sphere-bg"></div>
+                <div class="sum">
+                    <span>总脚本数量</span>
+                    <p>66688</p>
+                </div>
+            </div>
+            <div class="cicle3"></div>
+            <div class="cicle4"></div>
+            <div class="cicle5"></div>
+            <div class="cicle6"></div>
+            <div class="cicle7"></div>
+            <div class="cicle8">
+                <span>3</span>
+                <p>有效用户</p>
+            </div>
+            <div class="cicle9">
+                <span>1</span>
+                <p>失效用户</p>
+            </div>
+            <div class="cicle10">
+                <span>4</span>
+                <p>总用户</p>
+            </div>
+            <div class="cicle11">
+                <span>75%</span>
+                <p>存活率</p>
+            </div>
+        </div>
+        <!-- 脚本运行分析 -->
+        <div class="analyse">
+            <div class="analyse-title">
+                <span>运行情况分析</span>
+            </div>
+            <ul>
+                <li>
+                    <img src="./images/s1.png" alt="">
+                    <h5>脚本运行总数</h5><br>
+                    <span>Script Target</span><br>
+                    <em>1551</em>
+                </li>
+                <li>
+                    <img src="./images/s3.png" alt="">
+                    <h5>脚本运行成功</h5><br>
+                    <span>Sucess Target</span><br>
+                    <em>1233</em>
+                </li>
+                <li>
+                    <img src="./images/s2.png" alt="">
+                    <h5>脚本运行失败</h5><br>
+                    <span>error Target</span><br>
+                    <em>250</em>
+                </li>
+            </ul>
+            <div class="execution">
+                <div class="title">完成情况</div>
+                <div class="cicle1"></div>
+                <div class="cicle2"></div>
+                <div class="waterChart1">
+                    <div class="chart-title">脚本成功率</div>
+                    <div class="chart1"></div>
+                </div>
+                <div class="waterChart2">
+                    <div class="chart-title">运行成功占比</div>
+                    <div class="chart2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 脚本类型分析 -->
+        <div class="sale">
+            <ul>
+                <li>
+                    <div class="showImg">
+                        <!-- <img src="./images/shoe.png" alt=""> -->
+                    </div>
+                    <div class="data">
+                        <span>京东</span>
+                        <span>200</span>
+                    </div>
+                    <div class="shoeChart"></div>
+                </li>
+                <li>
+                    <div class="showImg">
+                        <!-- <img src="./images/clothes.png" alt=""> -->
+                    </div>
+                    <div class="data">
+                        <span>美团</span>
+                        <span>56</span>
+                    </div>
+                    <div class="clothesChart"></div>
+                </li>
+                <li>
+                    <div class="showImg">
+                        <!-- <img src="./images/mz.png" alt=""> -->
+                    </div>
+                    <div class="data">
+                        <span>饿了么</span>
+                        <span>16</span>
+                    </div>
+                    <div class="mzChart"></div>
+                </li>
+            </ul>
+        </div>
+        <!-- 折线图 -->
+        <!-- <div class="lineChart"> -->
+        </div>
+    </div>
+
+    <!-- 底部模块 -->
+    <div class="bottom">
+        <h5><span>数据状况</span></h5>
+        <p>Data Status</p>
+    </div>
+</body>
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>
+<script src="./node_modules/echarts-liquidfill/dist/echarts-liquidfill.min.js"></script>
+<script src="./js/main.js"></script>
+
+</html>
