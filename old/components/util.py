@@ -5,6 +5,9 @@ def convert_cookies_to_dict(cookies):
     :param cookies: str
     :return:
     """
+    print(f"cookies type:{type(cookies)}")
+    if isinstance(cookies, dict):
+        return cookies
     cookies = cookies.strip()
     try:
         ck = dict([l.strip().split("=", 1) for l in list(filter(None, cookies.split(";")))])
