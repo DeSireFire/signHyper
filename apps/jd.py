@@ -48,6 +48,7 @@ async def set_jd_cookies(request: Request):
         return {"code": 0, "msg": msg}
 
     cookies_dict = parse_qs(user_id.replace(';', '&').replace(' ', ''))
+    cookies_dict = {k: "".join(v[:1]) for k, v in cookies_dict.items() if v}
 
     # 检查是否为有效的JD ck
     if check_jd_ck(cookies_dict):
@@ -56,8 +57,8 @@ async def set_jd_cookies(request: Request):
         # check_jd_ck已经检查了这两个值是否存在
         pt_key = cookies_dict.get("pt_key", None)
         pt_pin = cookies_dict.get("pt_pin", None)
-        simple_ck = f"pt_key={pt_key};pt_pin={pt_pin};", f"{remark}"
-        ql.envs_create("JD_COOKIE", simple_ck, unick)
+        simple_ck = f"pt_key={pt_key};pt_pin={pt_pin};"
+        ql.envs_create("JD_COOKIE", simple_ck, f"{unick}")
         msg = "OK!"
         return {"code": 1, "msg": msg}
     else:
