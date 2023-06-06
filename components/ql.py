@@ -24,7 +24,8 @@ class qinglong(object):
         """
         # 获取auth信息
         auth_json = {}
-        raw = requests.get("http://10.0.0.3:2180/config/token.json")
+        # raw = requests.get("http://10.0.0.3:2180/config/auth.json")
+        raw = requests.get(url="https://ani.lovewx.club:25100/config/auth.json", verify=False)
         assert raw.status_code == 200, '获取青龙面板密钥文件时失败！'
         if raw.json():
             auth_json = raw.json()
@@ -128,8 +129,7 @@ class qinglong(object):
         params = {
             't': str(int(round(time.time() * 1000))),
         }
-        # data = '[36]'
-        data = json.dumps(ids)
+        data = f'[{",".join(ids)}]'
 
         response = requests.delete(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
         print(response.text)
@@ -140,11 +140,33 @@ class qinglong(object):
             # todo 日志 请求失败
             return None
 
+    def envs_enable(self, ids):
+        """
+        启用变量
+        :param ids: list, 需要启用的环境变量id列表
+        :return:
+        """
+        params = {
+            't': str(int(round(time.time() * 1000))),
+        }
+        data = f'[{",".join(ids)}]'
+
+        response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
+        print(response.text)
+        if '"code":200' in response.text:
+            datas = json.loads(response.text).get("data")
+            return datas
+        else:
+            # todo 日志 请求失败
+            return None
+
 if __name__ == '__main__':
-    cls = qinglong()
-    # print(cls.get_ql_auth())
+    print(__name__)
+    # cls = qinglong()
+    # print(cls.auth)
+    # print(cls.ql_headers)
     # 增删改查
-    c = cls.envs_create("demo", "demo", "demo")
-    # d = cls.envs_del("36")
-    # u = cls.envs_update("demo", "demo", "demo", "35")
-    # r = cls.envs_read("DeSireFire")
+    # c = cls.envs_create("demo", "demo", "demo")
+    # d = cls.envs_del("28")
+    # u = cls.envs_update("demo", "demo", "demo666", "28")
+    # r = cls.envs_read("JD")
