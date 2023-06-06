@@ -52,8 +52,7 @@ async def set_jd_cookies(request: Request):
 
     # 检查是否为有效的JD ck
     if check_jd_ck(cookies_dict):
-        print(cookies_dict)
-        unick = cookies_dict.get("unick", user_id)
+        unick = cookies_dict.get("unick", remark)
         # check_jd_ck已经检查了这两个值是否存在
         pt_key = cookies_dict.get("pt_key", None)
         pt_pin = cookies_dict.get("pt_pin", None)
