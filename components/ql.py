@@ -6,12 +6,15 @@
 # Blog      : https://blog.raxianch.moe/
 # Github    : https://github.com/DeSireFire
 __author__ = 'RaXianch'
+
 import json
 import os
 import platform
 import time
 import requests
 from config import base_file_path, ql_url
+
+
 class qinglong(object):
     def __init__(self):
         self.url = ql_url
@@ -24,8 +27,8 @@ class qinglong(object):
         """
         # 获取auth信息
         auth_json = {}
-        # raw = requests.get("http://10.0.0.3:2180/config/auth.json")
-        raw = requests.get(url="https://ani.lovewx.club:25100/config/auth.json", verify=False)
+        raw = requests.get("http://10.0.0.3:2180/config/auth.json")
+        # raw = requests.get(url="https://ani.lovewx.club:25100/config/auth.json", verify=False)
         assert raw.status_code == 200, '获取青龙面板密钥文件时失败！'
         if raw.json():
             auth_json = raw.json()
@@ -68,13 +71,13 @@ class qinglong(object):
             # todo 日志 请求失败
             return None
 
-    def envs_update(self, name, value, remarks, id_str):
+    def envs_update_old(self, name, value, remarks, id_str):
         """
         更新变量
         :param name: str, 环境变量名称
         :param value: str, 环境变量值
         :param remarks: str, 环境变量的备注
-        :param id_str: int, 环境变量索引，用于数据更新
+        :param id_str: str, 环境变量索引，用于数据更新
         :return:
         """
         params = {
@@ -93,7 +96,35 @@ class qinglong(object):
             # todo 日志 请求失败
             return None
 
-    def envs_create(self, name, value, remarks):
+    def envs_update(self, id_str, **kwargs):
+        """
+        更新变量
+        :param id_str: str, 环境变量索引，用于数据更新
+        kwargs ↓
+        :param name: str, 环境变量名称
+        :param value: str, 环境变量值
+        :param remarks: str, 环境变量的备注
+        :return:
+        """
+        params = {
+            't': str(int(round(time.time() * 1000))),
+        }
+        # 样例 data = {"name":"test888","value":"ohohoh","remarks":"test","id":35}
+        # data = {"name": f"{name}", "value": f"{value}", "id": int(id_str)}
+        data = {}
+        data.update(kwargs)
+        data["id"] = int(id_str)
+        item = {k: v for k, v in data.items() if v}
+        response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=json.dumps(item))
+        print(f"envs_update-->{response.text}")
+        if '"code":200' in response.text:
+            datas = json.loads(response.text).get("data")
+            return datas
+        else:
+            # todo 日志 请求失败
+            return None
+
+    def envs_create_old(self, name, value, remarks):
         """
         添加变量
         :param name: str, 环境变量名称
@@ -112,6 +143,33 @@ class qinglong(object):
             data["remarks"] = f"{remarks}"
         datas.append(data)
         response = requests.post(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=json.dumps(datas))
+        print(response.text)
+        if '"code":200' in response.text:
+            datas = json.loads(response.text).get("data")
+            return datas
+        else:
+            # todo 日志 请求失败
+            return None
+
+    def envs_create(self, **kwargs):
+        """
+        添加变量 kwargs ↓
+        :param name: str, 环境变量名称
+        :param value: str, 环境变量值
+        :param remarks: str, 环境变量的备注
+        :return:
+        """
+        params = {
+            't': str(int(round(time.time() * 1000))),
+        }
+        items = []
+        # data = '[{"name":"test777","value":"test888","remarks":"90909"}]'
+        # data = json.dumps([{"name":f"{name}","value":"test888","remarks":"90909"}])
+        data = {}
+        data.update(kwargs)
+        item = {k: v for k, v in data.items() if v}
+        items.append(item)
+        response = requests.post(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=json.dumps(items))
         print(response.text)
         if '"code":200' in response.text:
             datas = json.loads(response.text).get("data")
@@ -159,6 +217,51 @@ class qinglong(object):
         else:
             # todo 日志 请求失败
             return None
+
+    def envs_check_update(self, update_value):
+        """
+        获取青龙面板的所有环境变量
+        :param update_value: dict,需要查找并更新的数据
+        :return:
+        """
+        item = {}
+        #  如果存在id直接使用id更新
+        if "id" in update_value:
+            item = update_value
+            callback = self.envs_update(update_value.get('id'), **item)
+            return callback
+
+        # 如果没有id,则通过name字段和remarks的完全匹配
+        if "id" not in update_value:
+            envs_list = self.envs_read('') or []
+            name = update_value.get("name") or None
+            remarks = update_value.get("remarks") or None
+            temp = {}
+            for i in envs_list():
+                if i.get("name") == name and i.get("remarks") == remarks:
+                    temp.update(i)
+                    break
+            if temp:
+                temp.update(update_value)
+                item = temp
+                callback = self.envs_update(update_value.get('id'), **item)
+                return callback
+
+        # todo 完全没找到匹配项的则新建
+        if not item and "name" in update_value and "value" in update_value:
+            item = update_value
+            callback = self.envs_create(**item)
+            return callback
+
+        if not item:
+            print(f"{update_value} 该数据不规范，提交失败")
+            return None
+
+        print(f"{update_value} 该数据提交失败，原因未知。")
+        return None
+
+
+
 
 if __name__ == '__main__':
     print(__name__)
