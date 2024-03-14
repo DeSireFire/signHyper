@@ -48,6 +48,7 @@ async def set_jd_cookies(request: Request):
             "status": 0,
             "value": value,
         }
+        print(f"提交内容：{data}")
         callback = ql.envs_check_update(data)
         if callback:
             msg = "OK!"
