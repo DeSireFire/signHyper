@@ -12,7 +12,7 @@ import os
 import platform
 import time
 import requests
-from config import base_file_path, ql_url
+from config import ql_url
 
 
 class qinglong(object):
@@ -243,8 +243,9 @@ class qinglong(object):
                     break
             if temp:
                 temp.update(update_value)
-                item = temp
-                callback = self.envs_update(update_value.get('id'), **item)
+                key_list = ["id", "name", "remarks", "value", "status"]
+                item = {k: v for k, v in temp.items() if k in key_list}
+                callback = self.envs_update(item.get('id'), **item)
                 return callback
 
         # todo 完全没找到匹配项的则新建
