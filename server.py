@@ -23,7 +23,7 @@ app.add_middleware(
 from apps.jd import jdApp
 from apps.meituan import mtApp
 # app.mount(f"/api/jdApp", jdApp)
-app.mount(f"/api/meituan", mtApp) # /api/meituan/setToken
+app.mount(f"/api/meituan", mtApp)   # /api/meituan/setToken
 # 读取
 auth_json = {}
 

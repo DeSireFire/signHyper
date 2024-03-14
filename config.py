@@ -14,7 +14,7 @@ base_file_path = os.path.dirname(__file__)
 
 # signHyper 服务地址/端口
 host = "127.0.0.1" if platform.system() == 'Windows' else "0.0.0.0"
-port = 5701
+port = 15309
 
 # 青龙地址
 # ql_url = "http://127.0.0.1:5700" if platform.system() == 'Windows' else "http://localhost:5700"
