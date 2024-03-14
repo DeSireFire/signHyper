@@ -37,14 +37,14 @@ async def set_jd_cookies(request: Request):
     msg = ""
     raw_data = await request.form()
     raw_data = dict(raw_data)
-    remark = raw_data.get('meituan_name')
+    remarks = raw_data.get('meituan_name')
     value = raw_data.get('meituan_secret')
-    if remark and value:
-        if remark and not remark.startswith("美团-"):
-            remark = f"美团-{remark}"
+    if remarks and value:
+        if remarks and not remarks.startswith("美团-"):
+            remarks = f"美团-{remarks}"
         data = {
             "name": "meituanCookie",
-            "remark": remark,
+            "remarks": remarks,
             "status": 0,
             "value": value,
         }
