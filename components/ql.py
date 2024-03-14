@@ -237,7 +237,7 @@ class qinglong(object):
             name = update_value.get("name") or None
             remarks = update_value.get("remarks") or None
             temp = {}
-            for i in envs_list():
+            for i in envs_list:
                 if i.get("name") == name and i.get("remarks") == remarks:
                     temp.update(i)
                     break
