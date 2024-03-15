@@ -37,20 +37,20 @@ async def set_jd_cookies(request: Request):
     raw_data = await request.form()
     raw_data = dict(raw_data)
     remarks = raw_data.get('jd_name')
-    pt_pin = raw_data.get('pt_pin')
-    pt_key = raw_data.get('pt_key')
-    value = ""
-    if remarks and pt_pin and pt_key:
+    # pt_pin = raw_data.get('pt_pin')
+    # pt_key = raw_data.get('pt_key')
+    jd_cookie = raw_data.get('jd_cookie')
+    if remarks and jd_cookie and "pt_pin" in jd_cookie and "pt_key" in jd_cookie:
         before_name = "京东-"
         if remarks and not remarks.startswith(before_name):
             remarks = f"{before_name}{remarks}"
-        if pt_pin and pt_key:
-            value = f"pt_pin={pt_pin};pt_key={pt_key};"
+        # if pt_pin and pt_key:
+        #     value = f"pt_pin={pt_pin};pt_key={pt_key};"
         data = {
             "name": "JD_COOKIE",
             "remarks": remarks,
             "status": 0,
-            "value": value,
+            "value": jd_cookie,
         }
         print(f"提交内容：{data}")
         callback = ql.envs_check_update(data)
@@ -60,12 +60,18 @@ async def set_jd_cookies(request: Request):
         else:
             msg = "处理提交内容时发生错误，联系管理员。"
     else:
-        if not pt_pin:
-            msg += "pt_pin 值不能为空！"
-        if not pt_key:
-            msg += "pt_key 值不能为空！"
+        # if not pt_pin:
+        #     msg += "pt_pin 值不能为空！"
+        # if not pt_key:
+        #     msg += "pt_key 值不能为空！"
         if not remarks:
             msg += "名称 值不能为空！"
+        if not jd_cookie:
+            msg += "京东cookie 值不能为空！"
+        if "pt_pin" not in jd_cookie:
+            msg += "提交的cookie值中没有 pt_pin！无法使用,请自行检查。"
+        if "pt_key" not in jd_cookie:
+            msg += "提交的cookie值中没有 pt_key！无法使用,请自行检查。"
     return {"code": 0, "msg": msg if msg else "未知错误!"}
 
 # # 视图函数接收post请求体中的Form表单元素
