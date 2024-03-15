@@ -37,10 +37,15 @@ async def set_jd_cookies(request: Request):
     raw_data = await request.form()
     raw_data = dict(raw_data)
     remarks = raw_data.get('jd_name')
-    value = raw_data.get('meituan_secret')
-    if remarks and value:
-        if remarks and not remarks.startswith("美团-"):
-            remarks = f"美团-{remarks}"
+    pt_pin = raw_data.get('pt_pin')
+    pt_key = raw_data.get('pt_key')
+    value = ""
+    if remarks and pt_pin and pt_key:
+        before_name = "京东-"
+        if remarks and not remarks.startswith(before_name):
+            remarks = f"{before_name}{remarks}"
+        if pt_pin and pt_key:
+            value = f"pt_pin={pt_pin};pt_key={pt_key};"
         data = {
             "name": "JD_COOKIE",
             "remarks": remarks,
@@ -54,7 +59,13 @@ async def set_jd_cookies(request: Request):
             return {"code": 1, "msg": msg}
         else:
             msg = "处理提交内容时发生错误，联系管理员。"
-
+    else:
+        if not pt_pin:
+            msg += "pt_pin 值不能为空！"
+        if not pt_key:
+            msg += "pt_key 值不能为空！"
+        if not remarks:
+            msg += "名称 值不能为空！"
     return {"code": 0, "msg": msg if msg else "未知错误!"}
 
 # # 视图函数接收post请求体中的Form表单元素
