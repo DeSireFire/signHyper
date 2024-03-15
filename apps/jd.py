@@ -30,37 +30,63 @@ async def request_validation_exception_handler(request: Request, exc: RequestVal
     print(f"参数不对{request.method} {request.url}")
     return JSONResponse({"code": 0, "msg": exc.errors()})
 
-
 # 视图函数接收post请求体中的Form表单元素
-@jdApp.post('/setck')
-# async def login(request: Request, form_data=Form(...), act=Form(...)):
+@jdApp.post('/setpt')
 async def set_jd_cookies(request: Request):
     msg = ""
     raw_data = await request.form()
-    raw_data = jsonable_encoder(raw_data)
-    form_data = parse_qs(raw_data.get("form_data"))
-    remark = "".join(form_data.get("remark")[:1]) if form_data.get("remark") else None
-    user_id = "".join(form_data.get("user_id")[:1]) if form_data.get("user_id") else None
-
-    # 检查是否成功接收到数据
-    if not user_id:
-        msg = "发生了剧烈的错误!"
-        return {"code": 0, "msg": msg}
-
-    cookies_dict = parse_qs(user_id.replace(';', '&').replace(' ', ''))
-    cookies_dict = {k: "".join(v[:1]) for k, v in cookies_dict.items() if v}
-
-    # 检查是否为有效的JD ck
-    if check_jd_ck(cookies_dict):
-        unick = cookies_dict.get("unick", remark)
-        # check_jd_ck已经检查了这两个值是否存在
-        pt_key = cookies_dict.get("pt_key", None)
-        pt_pin = cookies_dict.get("pt_pin", None)
-        simple_ck = f"pt_key={pt_key};pt_pin={pt_pin};"
-        ql.envs_create("JD_COOKIE", simple_ck, f"{unick}")
-        msg = "OK!"
-        return {"code": 1, "msg": msg}
-    else:
-        msg = "非合法的京东ck!"
+    raw_data = dict(raw_data)
+    remarks = raw_data.get('jd_name')
+    value = raw_data.get('meituan_secret')
+    if remarks and value:
+        if remarks and not remarks.startswith("美团-"):
+            remarks = f"美团-{remarks}"
+        data = {
+            "name": "JD_COOKIE",
+            "remarks": remarks,
+            "status": 0,
+            "value": value,
+        }
+        print(f"提交内容：{data}")
+        callback = ql.envs_check_update(data)
+        if callback:
+            msg = "OK!"
+            return {"code": 1, "msg": msg}
+        else:
+            msg = "处理提交内容时发生错误，联系管理员。"
 
     return {"code": 0, "msg": msg if msg else "未知错误!"}
+
+# # 视图函数接收post请求体中的Form表单元素
+# @jdApp.post('/setck')
+# # async def login(request: Request, form_data=Form(...), act=Form(...)):
+# async def set_jd_cookies(request: Request):
+#     msg = ""
+#     raw_data = await request.form()
+#     raw_data = jsonable_encoder(raw_data)
+#     form_data = parse_qs(raw_data.get("form_data"))
+#     remarks = "".join(form_data.get("remarks")[:1]) if form_data.get("remark") else None
+#     user_id = "".join(form_data.get("user_id")[:1]) if form_data.get("user_id") else None
+#
+#     # 检查是否成功接收到数据
+#     if not user_id:
+#         msg = "发生了剧烈的错误!"
+#         return {"code": 0, "msg": msg}
+#
+#     cookies_dict = parse_qs(user_id.replace(';', '&').replace(' ', ''))
+#     cookies_dict = {k: "".join(v[:1]) for k, v in cookies_dict.items() if v}
+#
+#     # 检查是否为有效的JD ck
+#     if check_jd_ck(cookies_dict):
+#         unick = cookies_dict.get("unick", remark)
+#         # check_jd_ck已经检查了这两个值是否存在
+#         pt_key = cookies_dict.get("pt_key", None)
+#         pt_pin = cookies_dict.get("pt_pin", None)
+#         simple_ck = f"pt_key={pt_key};pt_pin={pt_pin};"
+#         ql.envs_create("JD_COOKIE", simple_ck, f"{unick}")
+#         msg = "OK!"
+#         return {"code": 1, "msg": msg}
+#     else:
+#         msg = "非合法的京东ck!"
+#
+#     return {"code": 0, "msg": msg if msg else "未知错误!"}

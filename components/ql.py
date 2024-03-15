@@ -244,7 +244,7 @@ class qinglong(object):
             if temp:
                 temp.update(update_value)
                 key_list = ["id", "name", "remarks", "value", "status"]
-                item = {k: v for k, v in temp.items() if k in key_list}
+                item = {k: v.strip() for k, v in temp.items() if k in key_list}
                 callback = self.envs_update(item.get('id'), **item)
                 return callback
 
