@@ -39,6 +39,12 @@ async def set_jd_cookies(request: Request):
     raw_data = dict(raw_data)
     remarks = raw_data.get('meituan_name')
     value = raw_data.get('meituan_secret')
+
+    # http://meishi.meituan.com/i/?ci=290&stid_b=1&cevent=imt%2Fhomepage%2Fcategory1%2F1&userId=71319945&token=AgH0JbBVm3C8JaLNEvUgD_nPqY_0ezYwjXyPbO7ZkGdCU6gSxqicxB9kNtwu9LnZgZOJqZWGcO4G8QAAAAC1HgAAlzApDjpsgxXF1ymIOivmXsXHBhfu1sGN5zTOUvjAfv2Sh8v8a0073jHPtJjI0gbJ
+    if value and "http://meishi.meituan.com" in value:
+        value = value.split("token=")[1:] or []
+        value = "".join(value) or None
+
     if remarks and value:
         if remarks and not remarks.startswith("美团-"):
             remarks = f"美团-{remarks}"
