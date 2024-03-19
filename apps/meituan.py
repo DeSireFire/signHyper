@@ -81,10 +81,10 @@ async def set_jd_cookies(request: Request):
     # todo 获取指定id的日志,切割
     log_text = ql.job_log_read(first_item_id)
     logs, start_time = parse_logs(log_text)
-    # print(f"日志开始执行时间：{start_time}")
-    # for index, account_log in enumerate(logs, start=1):
-    #     print(f"-------- 账号[{index}] --------")
-    #     print(account_log)
+    print(f"日志开始执行时间：{start_time}")
+    for index, account_log in enumerate(logs, start=1):
+        print(f"-------- 账号[{index}] --------")
+        # print(account_log)
 
     # todo 获取所有美团脚本相关的变量
     mt_users = ql.envs_read("meituanCookie")
