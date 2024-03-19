@@ -1,4 +1,6 @@
 import http.cookies
+import re
+
 
 def convert_cookies_to_dict(cookies):
     """
@@ -33,3 +35,19 @@ def check_jd_ck(cookies_dict:dict):
         return True
     else:
         return False
+
+def parse_logs(json_data):
+    def extract_account_logs(log_part):
+        return log_part.strip()
+
+    log_text = json_data
+
+    # 分割日志并过滤有效日志段落
+    logs = [extract_account_logs(part) for part in log_text.split('---------------- 账号[')[1:]]
+
+    # 提取执行时间
+    start_time_pattern = r'开始执行...\s+(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})'
+    start_time_match = re.search(start_time_pattern, log_text)
+    start_time = start_time_match.group(1) if start_time_match else None
+
+    return logs, start_time

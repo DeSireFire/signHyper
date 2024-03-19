@@ -210,7 +210,7 @@ class qinglong(object):
         data = f'[{",".join(ids)}]'
 
         response = requests.put(f'{self.url}/api/envs', headers=self.ql_headers, params=params, data=data)
-        print(response.text)
+        # print(response.text)
         if '"code":200' in response.text:
             datas = json.loads(response.text).get("data")
             return datas
@@ -260,6 +260,43 @@ class qinglong(object):
 
         print(f"{update_value} 该数据提交失败，原因未知。")
         return None
+
+    def job_log_read(self, job_id):
+        """
+        任务日志获取
+        :param job_id: list, 需要启用的环境变量id列表
+        :return:
+        """
+        url = f"https://admin.ql.moeacg.cn/api/crons/{job_id}/log"
+        params = {
+            't': str(int(round(time.time() * 1000))),
+        }
+        response = requests.get(url, headers=self.ql_headers, params=params)
+        if '"code":200' in response.text:
+            datas = json.loads(response.text).get("data")
+            return datas
+        else:
+            # todo 日志 请求失败
+            return None
+
+    def crons_search(self, searchValue=''):
+        """
+        获取青龙面板的所有定时任务
+        :param searchValue: str, 搜索字符串。为空串时，默认返回所有数据
+        :return:
+        """
+        params = {
+            'searchValue': searchValue,
+            't': str(int(round(time.time() * 1000))),
+        }
+
+        response = requests.get(f'{self.url}/api/crons', headers=self.ql_headers, params=params)
+        if '"code":200' in response.text:
+            datas = json.loads(response.text).get("data")
+            return datas
+        else:
+            # todo 日志 请求失败
+            return None
 
 
 if __name__ == '__main__':
