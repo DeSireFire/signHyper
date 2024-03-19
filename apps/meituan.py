@@ -67,14 +67,14 @@ async def set_jd_cookies(request: Request):
 
 
 # 获取美团运行情况
-@mtApp.get('/metLog')
+@mtApp.get('/mtLog')
 async def set_jd_cookies(request: Request):
     msg = ""
 
     # todo 美团脚本的job_id
     tasks = ql.crons_search("meituan")
     first_item_id = tasks['data'][0]['id'] if tasks else None
-    if first_item_id:
+    if not first_item_id:
         msg = "获取指定任务id失败！无法查询..."
         return {"code": 0, "msg": msg if msg else "未知错误!"}
 
