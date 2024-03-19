@@ -97,11 +97,11 @@ async def set_jd_cookies(request: Request):
     if logs and mt_users:
         for u, l in zip(mt_users, logs):
             if u["remarks"] not in res_data:
-                res_data["remarks"] = {}
+                res_data[u["remarks"]] = {}
             else:
                 for k in ["id", 'remarks', 'name', 'status']:
-                    res_data["remarks"][k] = u[k]
-                res_data["remarks"] = l
+                    res_data[u["remarks"]][k] = u[k]
+                res_data[u["remarks"]]["remarks"] = l
 
     if res_data:
         msg = "OK!"
