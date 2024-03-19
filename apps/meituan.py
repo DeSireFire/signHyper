@@ -94,7 +94,7 @@ async def set_jd_cookies(request: Request):
 
     # todo 格式化日志以及对应用户关系
     res_data = {}
-    if logs and mt_users and len(mt_users) == len(logs):
+    if logs and mt_users:
         for u, l in zip(mt_users, logs):
             if u["remarks"] not in res_data:
                 res_data["remarks"] = {}
