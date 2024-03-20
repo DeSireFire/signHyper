@@ -1,3 +1,4 @@
+import base64
 import http.cookies
 import re
 
@@ -73,3 +74,36 @@ def desensitize_phone_numbers(text):
         text = re.sub(re.escape(number), '***' + number[3:-4] + '***', text)
 
     return text
+
+
+
+# 函数：字符串转Base64编码
+def string_to_base64(input_string):
+    """
+    # 示例：
+    input_str = "Hello, World!"
+    encoded_str = string_to_base64(input_str)
+    print(f"Encoded: {encoded_str}")
+
+    decoded_str = base64_to_string(encoded_str)
+    print(f"Decoded: {decoded_str}")
+
+    :param input_string:
+    :return:
+    """
+    # 将字符串转换为bytes，因为base64模块处理的是字节序列
+    input_bytes = input_string.encode('utf-8')
+    # 进行Base64编码
+    encoded_string = base64.b64encode(input_bytes)
+    # 返回编码后的字符串（默认已经是utf-8编码的文本，可以直接打印或存储）
+    return encoded_string.decode('utf-8')
+
+# 函数：Base64编码转回字符串
+def base64_to_string(encoded_string):
+    # 将Base64编码的字符串转换为bytes以便解码
+    encoded_bytes = encoded_string.encode('utf-8')
+    # 进行Base64解码
+    decoded_bytes = base64.b64decode(encoded_bytes)
+    # 将解码后的字节序列转换回字符串
+    original_string = decoded_bytes.decode('utf-8')
+    return original_string
