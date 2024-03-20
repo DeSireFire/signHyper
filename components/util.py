@@ -71,7 +71,9 @@ def desensitize_phone_numbers(text):
 
     # 对找到的手机号码进行脱敏处理，只保留前三位和后四位，中间用*代替
     for number in phone_numbers:
-        text = re.sub(re.escape(number), '***' + number[3:-4] + '***', text)
+        # text = re.sub(re.escape(number), '***' + number[3:-4] + '***', text)
+        text = re.sub(re.escape(number), "******" + number[-4:], text)
+
 
     return text
 

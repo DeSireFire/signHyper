@@ -67,18 +67,18 @@ async def set_jd_cookies(request: Request):
 
 
 # 获取美团运行情况
-@mtApp.get('/mtLog')
-async def set_jd_cookies(request: Request):
+@mtApp.get('/mtLogAll')
+async def mt_log_all(request: Request):
     msg = ""
 
-    # todo 美团脚本的job_id
+    # 美团脚本的job_id
     tasks = ql.crons_search("meituan")
     first_item_id = tasks['data'][0]['id'] if tasks else None
     if not first_item_id:
         msg = "获取指定任务id失败！无法查询..."
         return {"code": 0, "msg": msg if msg else "未知错误!"}
 
-    # todo 获取指定id的日志,切割
+    # 获取指定id的日志,切割
     log_text = ql.job_log_read(first_item_id)
     logs, start_time = parse_logs(log_text)
     print(f"日志开始执行时间：{start_time}")
@@ -86,13 +86,13 @@ async def set_jd_cookies(request: Request):
         print(f"-------- 账号[{index}] --------")
         # print(account_log)
 
-    # todo 获取所有美团脚本相关的变量
+    # 获取所有美团脚本相关的变量
     mt_users = ql.envs_read("meituanCookie")
     print(f"用户列表...")
     for n, m in enumerate(mt_users, start=1):
         print(f"{n}:{m}")
 
-    # todo 格式化日志以及对应用户关系
+    # 格式化日志以及对应用户关系
     res_data = {}
     if logs and mt_users:
         for u, l in zip(mt_users, logs):
@@ -102,31 +102,73 @@ async def set_jd_cookies(request: Request):
                     res_data[u["remarks"]][k] = u[k]
                 tl = desensitize_phone_numbers(l)
                 tls = tl.split("\n") or [""]
-                nl = "\n".join(tls[1:])
+                nl = "\n".join(tls[1:]).strip()
                 res_data[u["remarks"]]["log_info"] = nl
 
     if res_data:
         msg = "OK!"
-        return {"code": 1, "msg": msg, "mt_datas": res_data}
+        return {"code": 1, "msg": msg, "datas": res_data}
     else:
         msg = "处理提交内容时发生错误，联系管理员。"
 
 
-    # if remarks and value:
-    #     if remarks and not remarks.startswith("美团-"):
-    #         remarks = f"美团-{remarks}"
-    #     data = {
-    #         "name": "meituanCookie",
-    #         "remarks": remarks,
-    #         "status": 0,
-    #         "value": value,
-    #     }
-    #     print(f"提交内容：{data}")
-    #     callback = ql.envs_check_update(data)
-    #     if callback:
-    #         msg = "OK!"
-    #         return {"code": 1, "msg": msg}
-    #     else:
-    #         msg = "处理提交内容时发生错误，联系管理员。"
-
     return {"code": 0, "msg": msg if msg else "未知错误!"}
+
+
+# 获取美团运行情况
+@mtApp.get('/mtLog')
+async def mt_log(request: Request, remarks: str):
+    msg = ""
+    if remarks:
+        remarks = remarks.strip()
+    if remarks and not remarks.startswith("美团-"):
+        remarks = f"美团-{remarks}"
+    # 美团脚本的job_id
+    tasks = ql.crons_search("meituan")
+    first_item_id = tasks['data'][0]['id'] if tasks else None
+    if not first_item_id:
+        msg = "获取指定任务id失败！无法查询..."
+        return {"code": 0, "msg": msg if msg else "未知错误!"}
+
+    # 获取指定id的日志,切割
+    log_text = ql.job_log_read(first_item_id)
+    logs, start_time = parse_logs(log_text)
+
+    # 获取所有美团脚本相关的变量
+    mt_users = ql.envs_read("meituanCookie")
+    print(f"用户列表...")
+    for n, m in enumerate(mt_users, start=1):
+        print(f"{n}:{m}")
+
+    # 格式化日志以及对应用户关系
+    res_data = {}
+    if logs and mt_users:
+        for u, l in zip(mt_users, logs):
+            if u["remarks"] not in res_data:
+                res_data[u["remarks"]] = {}
+                for k in ["id", 'remarks', 'name', 'status']:
+                    res_data[u["remarks"]][k] = u[k]
+                tl = desensitize_phone_numbers(l)
+                tls = tl.split("\n") or [""]
+                nl = "\n".join(tls[1:]).strip()
+                res_data[u["remarks"]]["log_info"] = nl
+
+    if res_data:
+        mt_user_log = res_data.get("remarks")
+        msg = "OK!"
+        return {"code": 1, "msg": msg, "datas": mt_user_log}
+    else:
+        msg = "处理提交内容时发生错误，联系管理员。"
+    return {"code": 0, "msg": msg if msg else "未知错误!"}
+
+
+@mtApp.get("/items/")
+async def read_items(q: str, page: int = 1, limit: int = 10):
+    """
+    q: 搜索关键词
+    page: 当前页数，默认为1
+    limit: 每页显示数量，默认为10
+    """
+    results = {"query": q, "page": page, "limit": limit}
+    # 这里假设你从某个数据源基于这些参数获取数据...
+    return results
