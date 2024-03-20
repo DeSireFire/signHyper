@@ -55,7 +55,7 @@ async def set_jd_cookies(request: Request):
             "status": 0,
             "value": value,
         }
-        print(f"提交内容：{data}")
+        # print(f"提交内容：{data}")
         callback = ql.envs_check_update(data)
         if callback:
             msg = "OK!"
@@ -136,9 +136,6 @@ async def mt_log(request: Request, remarks: str):
 
     # 获取所有美团脚本相关的变量
     mt_users = ql.envs_read("meituanCookie")
-    print(f"用户列表...")
-    for n, m in enumerate(mt_users, start=1):
-        print(f"{n}:{m}")
 
     # 格式化日志以及对应用户关系
     res_data = {}
@@ -160,15 +157,3 @@ async def mt_log(request: Request, remarks: str):
     else:
         msg = "处理提交内容时发生错误，联系管理员。"
     return {"code": 0, "msg": msg if msg else "未知错误!"}
-
-
-@mtApp.get("/items/")
-async def read_items(q: str, page: int = 1, limit: int = 10):
-    """
-    q: 搜索关键词
-    page: 当前页数，默认为1
-    limit: 每页显示数量，默认为10
-    """
-    results = {"query": q, "page": page, "limit": limit}
-    # 这里假设你从某个数据源基于这些参数获取数据...
-    return results
