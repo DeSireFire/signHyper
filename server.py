@@ -24,7 +24,7 @@ from apps.jd import jdApp
 from apps.meituan import mtApp
 from apps.forwarder import forwarderApp
 app.mount(f"/api/jdApp", jdApp)
-app.mount(f"/api/jdApp", mtApp)
+app.mount(f"/api/mtApp", mtApp)
 app.mount(f"/api/fwApp", forwarderApp)   # /api/meituan/setToken
 # 读取
 auth_json = {}
