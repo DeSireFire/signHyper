@@ -90,7 +90,7 @@ async def mt_log_all(request: Request):
     mt_users = ql.envs_read("meituanCookie")
     print(f"用户列表...")
     for n, m in enumerate(mt_users, start=1):
-        print(f"{n}:{m}")
+        print(f"{n}:{m.get('remarks')}")
 
     # 格式化日志以及对应用户关系
     res_data = {}
@@ -150,7 +150,7 @@ async def mt_log(request: Request, remarks: str):
                 res_data[u["remarks"]]["log_info"] = nl
 
     if res_data:
-        mt_user_log = res_data.get("remarks")
+        mt_user_log = res_data.get(remarks)
         msg = "OK!"
         return {"code": 1, "msg": msg, "datas": mt_user_log}
     else:
