@@ -10,7 +10,7 @@ from typing import Optional, Set
 from fastapi import FastAPI, Request, Body
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from components.util import convert_cookies_to_dict, check_jd_ck, parse_logs
+from components.util import convert_cookies_to_dict, check_jd_ck, parse_logs, desensitize_phone_numbers
 from fastapi import Cookie, Response
 from components.ql import *
 from urllib.parse import quote
@@ -99,9 +99,11 @@ async def set_jd_cookies(request: Request):
             if u["remarks"] not in res_data:
                 res_data[u["remarks"]] = {}
                 for k in ["id", 'remarks', 'name', 'status']:
-                    res_data[u["remarks"]][k] = u
-                res_data[u["remarks"]]["remarks"] = l
-
+                    res_data[u["remarks"]][k] = u[k]
+                tl = desensitize_phone_numbers(l)
+                tls = tl.split("\n") or [""]
+                nl = "\n".join(tls[1:])
+                res_data[u["remarks"]]["log_info"] = nl
 
     if res_data:
         msg = "OK!"

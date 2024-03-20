@@ -37,6 +37,11 @@ def check_jd_ck(cookies_dict:dict):
         return False
 
 def parse_logs(json_data):
+    """
+    美团脚本日志切割
+    :param json_data:
+    :return:
+    """
     def extract_account_logs(log_part):
         return log_part.strip()
 
@@ -51,3 +56,20 @@ def parse_logs(json_data):
     start_time = start_time_match.group(1) if start_time_match else None
 
     return logs, start_time
+
+
+def desensitize_phone_numbers(text):
+    """
+    手机号码脱敏
+    :param text:
+    :return:
+    """
+    # 正则表达式匹配手机号码，这里以11位手机号为例
+    pattern = r'1[3-9]\d{9}'
+    phone_numbers = re.findall(pattern, text)
+
+    # 对找到的手机号码进行脱敏处理，只保留前三位和后四位，中间用*代替
+    for number in phone_numbers:
+        text = re.sub(re.escape(number), '***' + number[3:-4] + '***', text)
+
+    return text
