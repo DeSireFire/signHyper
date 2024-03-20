@@ -17,6 +17,8 @@ from urllib.parse import parse_qs
 from fastapi.encoders import jsonable_encoder
 
 forwarderApp = FastAPI()
+
+
 # ql = qinglong()
 
 
@@ -31,7 +33,6 @@ async def request_validation_exception_handler(request: Request, exc: RequestVal
     return JSONResponse({"code": 0, "msg": exc.errors()})
 
 
-
 # 视图函数接收post请求体中的Form表单元素
 @forwarderApp.get('/getQLjson')
 async def get_ql_json(request: Request):
@@ -40,10 +41,9 @@ async def get_ql_json(request: Request):
     callback = request.get(base64_to_string('aHR0cDovLzEwLjAuMC4zOjIxODAvY29uZmlnL2F1dGguanNvbg=='))
 
     if callback:
-        if callback:
-            msg = "OK!"
-            return {"code": 1, "msg": msg, "datas":callback}
-        else:
-            msg = "处理提交内容时发生错误，联系管理员。"
+        msg = "OK!"
+        return {"code": 1, "msg": msg, "datas": callback.text}
+    else:
+        msg = "处理提交内容时发生错误，联系管理员。"
 
     return {"code": 0, "msg": msg if msg else "未知错误!"}

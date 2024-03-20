@@ -111,7 +111,6 @@ async def mt_log_all(request: Request):
     else:
         msg = "处理提交内容时发生错误，联系管理员。"
 
-
     return {"code": 0, "msg": msg if msg else "未知错误!"}
 
 
