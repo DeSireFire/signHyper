@@ -118,6 +118,7 @@ async def mt_log_all(request: Request):
 @mtApp.get('/mtLog')
 async def mt_log(request: Request, remarks: str):
     msg = ""
+    print(f"接口路径:/mtLog. remarks:{remarks}")
     if remarks:
         remarks = remarks.strip()
     if remarks and not remarks.startswith("美团-"):
