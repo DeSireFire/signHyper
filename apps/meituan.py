@@ -88,7 +88,8 @@ async def mt_log_all(request: Request):
         # print(account_log)
 
     # 获取所有美团脚本相关的变量
-    mt_users = ql.envs_read("meituanCookie")
+    mt_users = ql.envs_read("meituanCookie") or []
+    mt_users = [i for i in mt_users if i.get("status")]
     print(f"用户列表...")
     for n, m in enumerate(mt_users, start=1):
         print(f"{n}:{m.get('remarks')}")
