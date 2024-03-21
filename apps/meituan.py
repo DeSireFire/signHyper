@@ -45,6 +45,7 @@ async def set_jd_cookies(request: Request):
     if value and "http://meishi.meituan.com" in value:
         value = value.split("token=")[1:] or []
         value = "".join(value) or None
+        value = value if "http" not in value else ""
 
     if remarks and value:
         if remarks and not remarks.startswith("美团-"):
@@ -151,6 +152,10 @@ async def mt_log(request: Request, remarks: str):
                 res_data[u["remarks"]]["log_info"] = nl
 
     if res_data:
+
+        for n in res_data.keys():
+            print(f"名称：{n}")
+
         mt_user_log = res_data.get(remarks)
         msg = "OK!"
         return {"code": 1, "msg": msg, "datas": mt_user_log}
