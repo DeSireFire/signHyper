@@ -89,7 +89,7 @@ async def mt_log_all(request: Request):
 
     # 获取所有美团脚本相关的变量
     mt_users = ql.envs_read("meituanCookie") or []
-    mt_users = [i for i in mt_users if i.get("status")]
+    mt_users = [i for i in mt_users if not i.get("status") == 0]
     print(f"用户列表...")
     for n, m in enumerate(mt_users, start=1):
         print(f"{n}:{m.get('remarks')}")
@@ -136,8 +136,9 @@ async def mt_log(request: Request, remarks: str):
     log_text = ql.job_log_read(first_item_id)
     logs, start_time = parse_logs(log_text)
 
-    # 获取所有美团脚本相关的变量
+    # 获取所有美团脚本用户相关的变量
     mt_users = ql.envs_read("meituanCookie")
+    mt_users = [i for i in mt_users if not i.get("status") == 0]
 
     # 格式化日志以及对应用户关系
     res_data = {}
@@ -151,14 +152,19 @@ async def mt_log(request: Request, remarks: str):
                 tls = tl.split("\n") or [""]
                 nl = "\n".join(tls[1:]).strip()
                 res_data[u["remarks"]]["log_info"] = nl
+                res_data[u["remarks"]]["start_time"] = start_time
 
     if res_data:
 
         for n in res_data.keys():
             print(f"名称：{n}")
 
-        mt_user_log = res_data.get(remarks)
-        msg = "OK!"
+        mt_user_log = {}
+        if remarks not in res_data.keys():
+            msg = f"没查找到{remarks}有关记录."
+        else:
+            mt_user_log = res_data.get(remarks)
+            msg = "OK!"
         return {"code": 1, "msg": msg, "datas": mt_user_log}
     else:
         msg = "处理提交内容时发生错误，联系管理员。"
